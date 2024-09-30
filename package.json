@@ -1,0 +1,26 @@
+{
+  "name": "express-mongodb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faricandrevano/backend-express-mongodb.git"
+  },
+  "author": "faric",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faricandrevano/backend-express-mongodb/issues"
+  },
+  "homepage": "https://github.com/faricandrevano/backend-express-mongodb#readme",
+  "description": "",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.0",
+    "mongoose": "^8.7.0",
+    "nodemon": "^3.1.7"
+  }
+}
