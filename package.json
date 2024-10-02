@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "type": "module",
+  "bin": {
+    "exmo": "./config/command.js"
+  },
   "scripts": {
     "server": "nodemon index.js"
   },
@@ -18,9 +21,19 @@
   "homepage": "https://github.com/faricandrevano/backend-express-mongodb#readme",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
     "express": "^4.21.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.0",
     "nodemon": "^3.1.7"
+  },
+  "devDependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "figlet": "^1.7.0",
+    "inquirer": "^11.1.0",
+    "ora": "^8.1.0"
   }
 }
