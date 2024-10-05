@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import { Command, Option, program } from "commander";
+import { program } from "commander";
 import chalk from "chalk";
 import inquirer from "inquirer";
 import figlet from "figlet";
+import { connectToDatabase, startServer } from "../index.js";
 import ora from "ora";
 import fs from "fs";
 import path from "path";
@@ -13,6 +14,45 @@ program.description(
     figlet.textSync("EXMO", { horizontalLayout: "full", font: "3D-ASCII" })
   )
 );
+
+let debouncerTimer;
+function watchFiles(dir) {
+  fs.watch(dir, { recursive: true }, (eventType, filename) => {
+    if (filename) {
+      const fullpath = path.join(dir, filename);
+      // ignore node_modules
+      if (fullpath.includes("node_modules")) {
+        return;
+      }
+      const ext = path.extname(filename);
+      if (ext === ".js") {
+        clearTimeout(debouncerTimer);
+        debouncerTimer = setTimeout(() => {
+          console.log(
+            `File ${filename}  has been changed. Restarting server...`
+          );
+          startServer();
+        }, 100);
+      }
+    }
+  });
+}
+
+// program running server
+program
+  .command("serve")
+  .description("Serve the application on the NODE development server")
+  .action(async () => {
+    try {
+      // wait to connect database
+      await connectToDatabase();
+      watchFiles(".");
+      startServer();
+    } catch (error) {
+      console.error("Error starting server:", error);
+    }
+  });
+// program make route
 program
   .command("make:route [name]")
   .description("Create a new file route")
@@ -45,6 +85,7 @@ program
       );
     }, 1500);
   });
+// program make modal
 program
   .command("make:model [name]")
   .description("Create a new file Models")
@@ -81,6 +122,7 @@ program
       );
     }, 1500);
   });
+// program make controller
 program
   .command("make:controller [name]")
   .description("Create a new file controller")
